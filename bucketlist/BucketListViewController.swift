@@ -42,7 +42,7 @@ class BucketListViewController: UITableViewController, addItemTableViewControlle
     
     
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        performSegue(withIdentifier: "editItemSegue", sender: indexPath)
+        performSegue(withIdentifier: "addItemSegue", sender: indexPath)
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -52,11 +52,7 @@ class BucketListViewController: UITableViewController, addItemTableViewControlle
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == "addItemSegue" {
-            let navigationController = segue.destination as! UINavigationController
-            let addItemTableViewController = navigationController.topViewController as! addItemTableViewController
-            addItemTableViewController.delegate = self
-        } else {
+        if sender is NSIndexPath {
             let navigationController = segue.destination as! UINavigationController
             let addItemTableViewController = navigationController.topViewController as! addItemTableViewController
             addItemTableViewController.delegate = self
@@ -64,6 +60,10 @@ class BucketListViewController: UITableViewController, addItemTableViewControlle
             let item = bucket_list[indexPath.row]
             addItemTableViewController.item = item
             addItemTableViewController.indexPath = indexPath
+        } else {
+            let navigationController = segue.destination as! UINavigationController
+            let addItemTableViewController = navigationController.topViewController as! addItemTableViewController
+            addItemTableViewController.delegate = self
         }
     }
     
