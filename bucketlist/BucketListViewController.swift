@@ -7,17 +7,18 @@
 //
 
 import UIKit
+import CoreData
 
 class BucketListViewController: UITableViewController, addItemTableViewControllerDelegate {
-    var bucket_list = [
-        "Go to Machu Pichu",
-        "See the great awall of China",
-        "Go to the Mediterranean",
-        "See Home"]
+    
+    var bucket_list = [BucketListItem]()
+    
+    let managedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
     override func viewDidLoad() {
         super.viewDidLoad()
         print("loaded")
+        fetchAllItems()
         // Do any additional setup after loading the view, typically from a nib.
     }
 
@@ -35,7 +36,7 @@ class BucketListViewController: UITableViewController, addItemTableViewControlle
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath)
         
-        cell.textLabel?.text = bucket_list[indexPath.row]
+        cell.textLabel?.text = bucket_list[indexPath.row].text!
         
         return cell
     }
@@ -46,6 +47,15 @@ class BucketListViewController: UITableViewController, addItemTableViewControlle
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        let item = bucket_list[indexPath.row]
+        managedObjectContext.delete(item)
+        
+        do {
+            try managedObjectContext.save()
+        } catch {
+            print("\(error)")
+        }
+        
         bucket_list.remove(at: indexPath.row)
         tableView.reloadData()
     }
@@ -57,7 +67,7 @@ class BucketListViewController: UITableViewController, addItemTableViewControlle
             let addItemTableViewController = navigationController.topViewController as! addItemTableViewController
             addItemTableViewController.delegate = self
             let indexPath = sender as! NSIndexPath
-            let item = bucket_list[indexPath.row]
+            let item = bucket_list[indexPath.row].text!
             addItemTableViewController.item = item
             addItemTableViewController.indexPath = indexPath
         } else {
@@ -74,14 +84,44 @@ class BucketListViewController: UITableViewController, addItemTableViewControlle
     
     func itemSaved(by controller: addItemTableViewController, with: String, index: NSIndexPath?) {
         if let ip = index {
-            bucket_list[ip.row] = with
-            tableView.reloadData()
-            dismiss(animated: true, completion: nil)
+            bucket_list[ip.row].text! = with
         } else {
             print("Received text from topview \(with)")
-            bucket_list.append(with)
-            tableView.reloadData()
-            dismiss(animated: true, completion: nil)
+            
+            //old way of creating a new object
+            //let item = NSEntityDescription.insertNewObject(forEntityName: "BucketListItem", into: managedObjectContext) as! BucketListItem
+            
+            let item = BucketListItem(context: managedObjectContext)
+            item.text = with
+            bucket_list.append(item)
+        }
+        
+        do {
+            try managedObjectContext.save()
+        } catch {
+            print("\(error)")
+        }
+        
+        tableView.reloadData()
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func fetchAllItems() {
+        
+        
+        //let thingRequest:NSFetchRequest<Thing> = Thing.fetchRequest()
+        //do { let fetchedThings = try context.fetch(thingRequest) }
+        //catch { print(error) }
+        
+        //let request = NSFetchRequest<NSFetchRequestResult>(entityName: "BucketListItem")
+        
+        let request: NSFetchRequest<BucketListItem> = BucketListItem.fetchRequest()
+
+        do {
+            let result = try self.managedObjectContext.fetch(request)
+                self.bucket_list = result as! [BucketListItem]
+        } catch {
+            print("\(error)")
         }
         
     }
