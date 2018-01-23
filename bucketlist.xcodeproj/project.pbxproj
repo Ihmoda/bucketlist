@@ -17,6 +17,7 @@
 		F99A5BB2200EAAAC00498366 /* bucketlistUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99A5BB1200EAAAC00498366 /* bucketlistUITests.swift */; };
 		F99A5BC0200EE5CD00498366 /* addItemTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99A5BBF200EE5CD00498366 /* addItemTableViewController.swift */; };
 		F9A36ACC200EF03D00D6EC76 /* addItemTableViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A36ACB200EF03D00D6EC76 /* addItemTableViewControllerDelegate.swift */; };
+		F9C1E1142017A11A00D0440A /* TaskModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C1E1132017A11A00D0440A /* TaskModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		F99A5BB3200EAAAC00498366 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F99A5BBF200EE5CD00498366 /* addItemTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addItemTableViewController.swift; sourceTree = "<group>"; };
 		F9A36ACB200EF03D00D6EC76 /* addItemTableViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addItemTableViewControllerDelegate.swift; sourceTree = "<group>"; };
+		F9C1E1132017A11A00D0440A /* TaskModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 			children = (
 				F99A5B91200EAAAB00498366 /* AppDelegate.swift */,
 				F99A5B93200EAAAB00498366 /* BucketListViewController.swift */,
+				F9C1E1132017A11A00D0440A /* TaskModel.swift */,
 				F9647C94200FD72C0047F7A5 /* BucketList.xcdatamodeld */,
 				F99A5BBF200EE5CD00498366 /* addItemTableViewController.swift */,
 				F99A5B95200EAAAB00498366 /* Main.storyboard */,
@@ -268,6 +271,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9C1E1142017A11A00D0440A /* TaskModel.swift in Sources */,
 				F9A36ACC200EF03D00D6EC76 /* addItemTableViewControllerDelegate.swift in Sources */,
 				F99A5B94200EAAAB00498366 /* BucketListViewController.swift in Sources */,
 				F9647C96200FD72C0047F7A5 /* BucketList.xcdatamodeld in Sources */,

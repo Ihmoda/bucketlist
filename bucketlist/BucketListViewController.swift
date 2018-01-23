@@ -16,12 +16,32 @@ class BucketListViewController: UITableViewController, addItemTableViewControlle
     let managedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
     override func viewDidLoad() {
+        TaskModel.getAllTasks() {
+            data, response, error in
+            do {
+                if let jsonResult = try? JSONSerialization.jsonObject(with: data!, options: []) {
+                    let result = jsonResult as! [NSDictionary]
+                    for task in result {
+                        if let item = task["objective"] {
+                            let text = item as! String
+                            let new_record = BucketListItem(context: self.managedObjectContext)
+                            new_record.text = text
+                            self.bucket_list.append(new_record)
+                        }
+                    }
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+                    
+                } else {
+                    print("Hello")
+                }
+            } catch {
+                print("Something went wrong")
+            }
+        }
         super.viewDidLoad()
-        print("loaded")
-        fetchAllItems()
-        // Do any additional setup after loading the view, typically from a nib.
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
